@@ -104,3 +104,42 @@ button:hover {
     padding: 0;
     overflow: hidden;
 }
+
+/* Styles for Sent Messages (Right-aligned) */
+.sent-message {
+    background-color: #3e3a52;
+    color: #fff;
+    border-radius: 15px 15px 15px 0;
+    margin-left: auto;
+    text-align: right; /* Right-align the sent messages */
+    max-width: 70%; /* Adjust the maximum width of the sent message container */
+}
+
+/* Styles for Received Messages (Left-aligned) */
+.received-message {
+    background-color: #f4f4f4;
+    color: #000;
+    border-radius: 15px 15px 0 15px;
+    margin-right: auto;
+    text-align: left; /* Left-align the received messages */
+    max-width: 70%; /* Adjust the maximum width of the received message container */
+}
+
+.message-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 5px;
+}
+
+.message {
+    padding: 10px;
+    border-radius: 10px;
+    word-wrap: break-word;
+}
+.timestamp {
+    font-size: 12px;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+}
