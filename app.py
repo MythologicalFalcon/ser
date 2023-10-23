@@ -1,4 +1,5 @@
 import os
+from venv import logger
 from xml.dom.minidom import Document
 from flask import Flask, request, render_template, jsonify
 import firebase_admin
@@ -11,7 +12,7 @@ import pprint
 import google.generativeai as palm
 import datetime
 import logging
-
+from operator import itemgetter
 app = Flask(__name__)
 
 # Initialize Firebase Admin SDK with error handling
@@ -43,11 +44,10 @@ def send_message():
         logging.info('The message and response has been successfully stored in firebase  ')
     else:
         logging.info('The conversation is not stored in firebase')
-    return jsonify({'Reply': response})
+    return render_template('index.html')
 
 def generatePalmResponse(userMessage):
     palm.configure(api_key='AIzaSyB-a2U5Rwv2JVN7_6sq35ZGFug3EuUPfhE')
-    print("user Message is ", userMessage)
     models = [m for m in palm.list_models() if 'generateText' in m.supported_generation_methods]
     model = models[0].name
     completion = palm.generate_text(
@@ -62,13 +62,35 @@ def firebaseStoring(message, response):
     try:
         # Initialize Firebase Admin SDK
         
-        print("firebase connection Initialized")
+        logger.info("firebase connection Initialized")
         timestamp = datetime.datetime.now()
         messages_ref.add({'message': message,'response' : response,'timestamp':timestamp})
         return 200
     except Exception as e:
         logging.error(e)
         return 500
+
+# Add a new route to get initial chat messages
+
+
+@app.route('/get-initial-messages', methods=['GET'])
+def get_initial_messages():
+    messages_ref = db.collection('chat')
+    messages = messages_ref.stream()
+
+    message_list = []
+    for message in messages:
+        data = message.to_dict()
+        if 'message' in data:  # Check if 'message' key exists
+            message_list.append({'message': data['message'], 'response': data.get('response'), 'timestamp': data.get('timestamp')})
+    
+    # Sort the message_list based on the 'timestamp' field
+    sorted_messages = sorted(message_list, key=itemgetter('timestamp'))
+    
+    return jsonify({'messages': sorted_messages})
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
