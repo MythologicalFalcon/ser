@@ -1,2 +1,6 @@
-flask
+Flask
 firebase-admin
+google-auth
+google-cloud-texttospeech
+openai
+google-generativeai
