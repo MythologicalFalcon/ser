@@ -1,22 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Your head content here -->
-    <style>
-        /* Add your CSS styles here */
-        .chat-messages {
-            max-height: 300px; /* Set the maximum height for the scrollable box */
-            overflow-y: scroll; /* Enable vertical scrolling */
-            border: 1px solid #ccc; /* Add a border for the box */
-            padding: 10px;
-            scroll-behavior: smooth;
-            scroll-snap-type: y mandatory;
-        }
-        .message-container {
-            scroll-snap-align: start;
-            margin: 10px 0;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Chat</title>
+    <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
     <div class="chat-container">
@@ -31,7 +20,9 @@
             </form>
         </div>
     </div>
-    <script>
+    
+
+<script>
         const chatMessages = document.getElementById('chatMessages');
     
         // Function to refresh initial messages from Firebase
@@ -70,8 +61,5 @@
         // Periodically refresh messages (e.g., every 5 seconds)
         setInterval(refreshInitialMessages, 1000);
     </script>
-    
-    
-    <!-- Your CSS and JavaScript code can be included here if needed -->
 </body>
 </html>
