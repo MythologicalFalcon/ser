@@ -125,21 +125,27 @@ button:hover {
     max-width: 70%; /* Adjust the maximum width of the received message container */
 }
 
+/* Add styles for chat bubbles */
 .message-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin: 5px;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    max-width: 70%;
+    word-wrap: break-word;
 }
+
+/* Style for the timestamp */
+.timestamp {
+    font-size: 12px;
+    color: #888;
+    text-align: right;
+}
+
 
 .message {
     padding: 10px;
     border-radius: 10px;
     word-wrap: break-word;
-}
-.timestamp {
-    font-size: 12px;
-    position: absolute;
-    bottom: 5px;
-    right: 5px;
 }
