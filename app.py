@@ -9,19 +9,19 @@ from google.cloud import texttospeech
 import openai
 import pprint
 import google.generativeai as palm
+import datetime
 
 app = Flask(__name__)
 
 # Initialize Firebase Admin SDK with error handling
-try:
-    cred = credentials.Certificate('firebase-credentials.json')
-    firebase_admin.initialize_app(cred)
-    db = firestore.client()
-except exceptions.DefaultCredentialsError as e:
-    print(f"Firebase credentials error: {e}")
-
 # Initialize OpenAI API with your API key
 openai.api_key = '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'
+cred = credentials.Certificate('firebase-credentials.json')
+firebase_admin.initialize_app(cred)
+        
+# Initialize Firestore
+db = firestore.client()
+messages_ref = db.collection('chat')
 
 @app.route('/')
 def index():
@@ -30,10 +30,13 @@ def index():
 @app.route('/send-message', methods=['POST'])
 def send_message():
     print("insends")
-    data = request.form['message']
-    response = generatePalmResponse(data)
+    message = request.form['message']
+    response = generatePalmResponse(message)
     print("###",response)
-    
+    if firebaseStoring(message,response) == 200:
+        print("stored in firebase")
+    else:
+        print("Error while stoting")
     return jsonify({'Reply': response})
 
 def generatePalmResponse(userMessage):
@@ -49,6 +52,21 @@ def generatePalmResponse(userMessage):
     max_output_tokens=800,)
     print(completion.result)
     return (completion.result)
+
+def firebaseStoring(message, response):
+    try:
+        # Initialize Firebase Admin SDK
+        
+        print("firebase connection Initialized")
+        timestamp = datetime.datetime.now()
+        messages_ref.add({'message': message,'response' : response,'timestamp':timestamp})
+        return 200
+    except Exception as e:
+        print(e)
+        return 500
+
+
+
 
 
 
