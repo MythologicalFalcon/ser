@@ -6,10 +6,13 @@ from nltk.stem.lancaster import LancasterStemmer
 import numpy
 import tflearn
 import tensorflow
-import random
-from tensorflow.python.util.nest import is_sequence_or_composite
+import logging
+
 
 import json
+
+logging.basicConfig(filename="AppLogs.log", level=logging.INFO)
+
 stemmer = LancasterStemmer()
 with open('intents.json') as file:
     data = json.load(file)
@@ -71,10 +74,12 @@ net = tflearn.regression(net)
 model = tflearn.DNN(net)
 
 model.fit(training, output, n_epoch=10, batch_size=8, show_metric=True)
+
 model.save("model.tflearn")
 
 try:
-    model.load("model.tflearn")
+    model.save("model.tflearn")
+
 except:
     model.fit(training, output, n_epoch=10, batch_size=8, show_metric=True)
     model.save("model.tflearn")
@@ -91,3 +96,5 @@ def bag_of_words(s, words):
                 bag[i] = 1
             
     return numpy.array(bag)
+
+logging.info("The model is trained and saved")

@@ -1,26 +1,18 @@
-import os
+
 from venv import logger
-from xml.dom.minidom import Document
 from flask import Flask, request, render_template, jsonify
 import firebase_admin
 from firebase_admin import credentials, firestore
-from google.auth import exceptions
-from google.auth import exceptions
-from google.cloud import texttospeech
+
 import openai
-import pprint
 import google.generativeai as palm
 import datetime
 import logging
 from operator import itemgetter
-import vertexai
-from vertexai.preview.language_models import ChatModel
 import chatgeneration as ct
 
 app = Flask(__name__)
 
-# Initialize Firebase Admin SDK with error handling
-# Initialize OpenAI API with your API key
 logging.basicConfig(filename="AppLogs.log", level=logging.INFO)
 openai.api_key = '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'
 cred = credentials.Certificate('firebase-credentials.json')
