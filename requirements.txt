@@ -1,0 +1,12 @@
+Flask
+firebase-admin
+google-auth
+openai
+google-generativeai
+datetime
+logging
+vertexai
+google-cloud-aiplatform
+numpy
+tflearn
+tensorflow
