@@ -6,3 +6,9 @@ openai
 google-generativeai
 datetime
 logging
+vertexai
+google-cloud-aiplatform
+chatterbot==1.0.4 pytz
+numpy
+tflearn
+tensorflow==2.12.0
