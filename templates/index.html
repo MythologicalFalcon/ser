@@ -21,54 +21,57 @@
     </div>
     <script>
         const chatMessages = document.getElementById('chatMessages');
-        
-        // Function to append a new message to the chat container
-        function appendMessage(message, response, timestamp) {
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('message-container');
-            
-            const messageText = document.createElement('p');
-            messageText.textContent = message;
-            
-            const responseText = document.createElement('p');
-            responseText.textContent = response;
-            
-            const timestampElement = document.createElement('p');
-            timestampElement.textContent = new Date(timestamp).toLocaleString();
-            timestampElement.classList.add('timestamp');
-            
-            messageDiv.appendChild(messageText);
-            messageDiv.appendChild(responseText);
-            messageDiv.appendChild(timestampElement);
-            
-            // Append the new message at the bottom of the chat container
-            chatMessages.appendChild(messageDiv);
-            
-            // Scroll to the bottom of the chat container
-            chatMessages.scrollTop = chatMessages.scrollHeight - chatMessages.clientHeight;
-        }
-        
-        // Function to refresh initial messages from Firebase
-        function refreshInitialMessages() {
-            fetch('/get-initial-messages')
-                .then(response => response.json())
-                .then(data => {
-                    chatMessages.innerHTML = ''; // Clear existing messages
-                    const messagesToDisplay = data.messages.slice(-100); // Get the most recent 30 messages
-                    messagesToDisplay.forEach(message => {
-                        appendMessage(message.message, message.response, message.timestamp);
-                    });
-                });
-        }
-        
-        // Refresh initial messages when the page loads
-        refreshInitialMessages();
-        
-        // Scroll to the bottom of the chat container when the page loads
-        chatMessages.scrollTop = chatMessages.scrollHeight - chatMessages.clientHeight;
-        
-        // Periodically refresh messages (e.g., every 5 seconds)
-        setInterval(refreshInitialMessages, 5000);
+
+// Function to append a new message to the chat container
+function appendMessage(message, response, timestamp) {
+    const messageDiv = document.createElement('div');
+    messageDiv.classList.add('message-container');
+
+    const messageText = document.createElement('p');
+    messageText.textContent = message;
+    messageText.classList.add('message');
+
+    const responseText = document.createElement('p');
+    responseText.textContent = response;
+    responseText.classList.add('response');
+
+    const timestampElement = document.createElement('p');
+    timestampElement.textContent = new Date(timestamp).toLocaleString();
+    timestampElement.classList.add('timestamp');
+
+    messageDiv.appendChild(messageText);
+    messageDiv.appendChild(responseText);
+    messageDiv.appendChild(timestampElement);
+
+    // Append the new message at the bottom of the chat container
+    chatMessages.appendChild(messageDiv);
+
+    // Scroll to the bottom of the chat container
+    chatMessages.scrollTop = chatMessages.scrollHeight - chatMessages.clientHeight;
+}
+
+// Function to refresh initial messages from Firebase
+function refreshInitialMessages() {
+    fetch('/get-initial-messages')
+        .then(response => response.json())
+        .then(data => {
+            chatMessages.innerHTML = ''; // Clear existing messages
+            const messagesToDisplay = data.messages.slice(-100); // Get the most recent 30 messages
+            messagesToDisplay.forEach(message => {
+                appendMessage(message.message, message.response, message.timestamp);
+            });
+        });
+}
+
+// Refresh initial messages when the page loads
+refreshInitialMessages();
+
+// Scroll to the bottom of the chat container when the page loads
+chatMessages.scrollTop = chatMessages.scrollHeight - chatMessages.clientHeight;
+
+// Periodically refresh messages (e.g., every 5 seconds)
+setInterval(refreshInitialMessages, 5000000000);
+
     </script>
 </body>
 </html>
